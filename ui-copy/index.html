@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>饭缩力 - 别让食物定义你的人生</title>
+    <style>
+        /*
+         * 文件功能说明：产品概念的启动/着陆页，适配浅色主题，通过视觉动画和三步流程引导，传达产品核心价值。
+         * 包含的函数：
+         *   - Particle: 粒子对象构造函数
+         *   - setup: 初始化画布和粒子
+         *   - update: 更新粒子状态（混沌或汇聚）
+         *   - draw: 绘制粒子和中心圆
+         *   - animate: 动画循环
+         *   - handleClick: 处理用户点击事件，触发汇聚动画并跳转
+         * 最后修改时间：2024-07-29
+         */
+        :root {
+            --background-color: #ffffff;
+            --text-color: #1d1d1f;
+            --particle-color: rgba(0, 0, 0, 0.4);
+            --center-orb-color: #000000;
+            --hint-text-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* 核心布局和字体，模拟iOS设计风格 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--background-color);
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Arial", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            cursor: pointer;
+        }
+
+        /* 动画画布，置于最底层 */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* 文本内容的容器，垂直居中 */
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            text-align: center;
+            opacity: 1; /* 整体容器不再做动画，由内部元素控制 */
+            padding: 0 20px;
+            box-sizing: border-box;
+            /* 新增：为点击后的汇聚动画添加过渡效果 */
+            transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        /* 主标题，巨大但克制 */
+        h1 {
+            font-size: clamp(2.8rem, 10vw, 4.5rem);
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: 1px;
+            line-height: 1.2;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.5s forwards;
+        }
+        
+        /* 新增：三步流程容器 */
+        .process {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 2.5rem;
+            gap: 2rem;
+        }
+        
+        /* 新增：单个步骤 */
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+        }
+
+        /* 为每个步骤设置不同的动画延迟 */
+        .step:nth-child(1) { animation: fadeIn 1s ease-out 1.5s forwards; }
+        .step:nth-child(2) { animation: fadeIn 1s ease-out 2.0s forwards; }
+        .step:nth-child(3) { animation: fadeIn 1s ease-out 2.5s forwards; }
+
+        /* 新增：步骤图标样式 */
+        .step svg {
+            width: clamp(32px, 8vw, 48px);
+            height: auto;
+            stroke: var(--text-color);
+            stroke-width: 1.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        
+        /* 新增：步骤文字样式 */
+        .step span {
+            margin-top: 0.8rem;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* 页面跳转提示 */
+        .hint {
+            position: absolute;
+            bottom: 5%;
+            font-size: 0.8rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out 3s forwards;
+            color: var(--hint-text-color);
+        }
+
+        /* 文本淡入动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content">
+        <h1>别让食物定义你的人生。</h1>
+
+        <div class="process">
+            <div class="step">
+                <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                <span>拍照</span>
+            </div>
+            <div class="step">
+                <!-- 更新：将纸飞机图标替换为代表"闪电/能量"的图标，更能体现"转化"的魔力 -->
+                <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>转化</span>
+            </div>
+            <div class="step">
+                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <span>掌控</span>
+            </div>
+        </div>
+        
+        <div class="hint">轻触任意处，开始改变</div>
+    </div>
+
+    <script>
+        // --- 动画核心逻辑 ---
+
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let isConverging = false;
+        let animationFrameId;
+
+        // 中心目标点
+        let target = { x: window.innerWidth / 2, y: window.innerHeight / 2, radius: 2.5 };
+        
+        // 粒子构造函数
+        function Particle(x, y, vx, vy) {
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            this.alpha = Math.random() * 0.4 + 0.1; // 调整透明度范围
+            this.radius = Math.random() * 1.5 + 0.5; // 随机大小
+        }
+        
+        // 初始化画布和粒子
+        function setup() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            target.x = canvas.width / 2;
+            target.y = canvas.height / 2;
+            particles = [];
+            const particleCount = window.innerWidth < 600 ? 150 : 300; // 移动端减少粒子数量
+            for (let i = 0; i < particleCount; i++) {
+                // 在屏幕随机位置创建粒子
+                particles.push(new Particle(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    (Math.random() - 0.5) * 0.5,
+                    (Math.random() - 0.5) * 0.5
+                ));
+            }
+            if(animationFrameId) cancelAnimationFrame(animationFrameId);
+            animate();
+        }
+
+        // 更新粒子状态
+        function update() {
+            for (let p of particles) {
+                if (isConverging) {
+                    // 如果处于汇聚状态，粒子加速飞向中心
+                    const dx = target.x - p.x;
+                    const dy = target.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const acc = 0.12; // 稍微增加加速度
+                    
+                    p.vx += (dx / dist) * acc;
+                    p.vy += (dy / dist) * acc;
+                    
+                    // 增加阻力，让汇聚过程更自然
+                    p.vx *= 0.95;
+                    p.vy *= 0.95;
+
+                }
+                
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // 简单的边界检测
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            }
+        }
+
+        // 绘制所有元素
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
+
+            for (let p of particles) {
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.globalAlpha = 1;
+
+            if(isConverging) {
+                // 当汇聚时，绘制中心稳定的黑点
+                // 去掉脉动，让最终状态更稳定、宁静
+                
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--center-orb-color').trim();
+                ctx.beginPath();
+                ctx.arc(target.x, target.y, target.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // 动画循环
+        function animate() {
+            update();
+            draw();
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        // 处理点击事件
+        function handleClick() {
+            if (isConverging) return;
+            isConverging = true;
+            
+            // 更新：让所有内容元素一起汇聚消失，而不仅仅是淡出
+            const contentEl = document.querySelector('.content');
+            contentEl.style.transform = 'scale(0.5)';
+            contentEl.style.opacity = '0';
+
+            // 关键步骤：在动画结束后跳转到主功能页
+            // 这里的 '/' 应该被替换为实际的功能页面URL
+            setTimeout(() => {
+                window.location.href = '/'; // 假设主功能页是根路径
+            }, 1500); // 缩短跳转时间，让体验更紧凑
+
+            // 移除事件监听器，防止多次触发
+            window.removeEventListener('click', handleClick);
+            window.removeEventListener('touchstart', handleClick);
+        }
+
+        // --- 事件监听 ---
+        window.addEventListener('resize', setup);
+        window.addEventListener('click', handleClick);
+        window.addEventListener('touchstart', handleClick, {passive: true});
+
+        // 启动
+        setup();
+    </script>
+</body>
+</html> 

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>饭缩力</title>
+    <style>
+        /* 
+         * 乔布斯的设计理念:
+         * 1. 纯粹的背景: #000，隔绝一切噪音。
+         * 2. 完美的居中: 使用Flexbox让内容在视觉上绝对平衡。
+         * 3. 优雅的字体: 选择系统默认的最清晰、简洁的无衬线字体。
+         * 4. 呼吸式动画: 使用opacity和animation实现非侵入式的、优雅的浮现效果。
+         * 5. 隐喻式交互: 整个屏幕都是可点击区域，光点只是一个沉静的暗示，而非一个粗鲁的按钮。
+         */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        }
+
+        a.gate {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .motto {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 24px; /* 在移动端这个尺寸会显得优雅而有力 */
+            font-weight: 300; /* 细字体更有品味 */
+            line-height: 1.5;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out 1s forwards; /* 延迟1秒后开始浮现 */
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 40px;
+            opacity: 0;
+            animation: 
+                fadeIn 2s ease-in-out 3s forwards, /* 延迟3秒（文字出现后再等2秒）后开始浮现 */
+                pulse 2.5s infinite ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(0.9); opacity: 0.5; }
+        }
+
+        /* 针对小屏幕设备调整字体大小 */
+        @media (max-width: 375px) {
+            .motto {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 整个页面是一个巨大的、通往功能页的门(gate) -->
+    <a href="your-real-app-page.html" class="gate">
+        <div class="container">
+            <p class="motto">伟大的灵魂，都懂得克制。</p>
+        </div>
+        <div class="pulse-dot"></div>
+    </a>
+</body>
+</html>

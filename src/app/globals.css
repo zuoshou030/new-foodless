@@ -1,0 +1,606 @@
+/**
+ * 饭缩力 Next.js 全局样式文件
+ * 包含：Tailwind CSS基础样式、原项目完整样式
+ * 最后修改时间：2024-12-19
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 引入外部字体 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* 黑白极简设计系统 */
+:root {
+    --primary-black: #000000;
+    --primary-white: #ffffff;
+    --soft-gray: #f5f5f5;
+    --medium-gray: #666666;
+    --light-gray: #e0e0e0;
+    --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --border-radius: 16px;
+    --transition: all 0.3s ease;
+    --secondary-white: #ffffff;
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    background: var(--primary-white);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: var(--primary-black);
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* 磨砂玻璃效果 - 简化版 */
+.glass-morphism {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--light-gray);
+    box-shadow: var(--shadow-subtle);
+}
+
+/* 主卡片样式 - 极简设计 */
+.main-card {
+    background: var(--primary-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-medium);
+    transition: var(--transition);
+    border: 1px solid var(--light-gray);
+}
+
+.main-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* 上传区域样式 */
+.upload-area {
+    position: relative;
+    overflow: hidden;
+    border: 2px dashed var(--light-gray);
+    background: var(--soft-gray);
+    transition: var(--transition);
+}
+
+.upload-area:hover {
+    border-color: var(--medium-gray);
+    background: var(--primary-white);
+}
+
+/* 新的图标按钮样式 */
+.upload-icon-btn,
+.camera-icon-btn {
+    transition: var(--transition);
+    box-shadow: var(--shadow-subtle);
+}
+
+.upload-icon-btn:hover,
+.camera-icon-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.upload-icon-btn:hover i,
+.camera-icon-btn:hover i {
+    color: var(--primary-black);
+    transform: scale(1.1);
+}
+
+.upload-icon-btn:active,
+.camera-icon-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-subtle);
+}
+
+/* 当加载动画激活时，锁定body滚动 */
+body.loading-active {
+    overflow: hidden;
+}
+
+/* 美食名称输入框样式 */
+.food-input-field {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 16px;
+    color: var(--primary-black);
+    background-color: var(--soft-gray);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: var(--transition);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.food-input-field::placeholder {
+    color: var(--medium-gray);
+}
+
+.food-input-field:focus {
+    border-color: var(--primary-black);
+    background-color: var(--primary-white);
+    box-shadow: var(--shadow-medium);
+}
+
+/* 按钮样式 - 极简黑白 */
+.btn-primary {
+    background: var(--primary-white);
+    color: var(--primary-black);
+    border: 2px solid var(--primary-black);
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 500;
+    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* 金色按钮样式（用于"直面内心的诱惑"按钮） */
+.btn-golden {
+    border: 1px solid #D4AF37 !important;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.2) !important;
+}
+
+.btn-golden i {
+    color: #D4AF37;
+}
+
+.btn-golden:hover {
+    background: var(--primary-black) !important;
+    color: var(--primary-white) !important;
+    border-color: var(--primary-black) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.btn-golden:hover i {
+    color: var(--primary-white) !important;
+}
+
+.btn-secondary {
+    background: var(--primary-white);
+    color: var(--primary-black);
+    border: 1px solid var(--light-gray);
+    border-radius: 12px;
+    padding: 8px 16px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-subtle);
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background: var(--soft-gray);
+    transform: none;
+}
+
+/* 标题样式 - 极简黑色 */
+.title-gradient {
+    color: var(--primary-black);
+    font-weight: 700;
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+}
+
+/* 简洁警醒文字加载动画 - 黑白版本 */
+.warning-loader {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--primary-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.warning-text-main {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.2;
+    color: var(--primary-black);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    letter-spacing: -0.02em;
+    max-width: 90%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+.warning-text-main.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.loading-indicator {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.loading-dots {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.loading-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-black);
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+.loading-text {
+    font-size: 14px;
+    color: var(--medium-gray);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+@keyframes dotPulse {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.text-fade-out {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+.text-fade-in {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.result-card {
+    background: var(--primary-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-medium);
+    border: 1px solid var(--light-gray);
+    transition: var(--transition);
+}
+
+.text-area {
+    background-color: #f7f7f7;
+    border-radius: 1rem;
+    line-height: 1.8;
+    color: #4a4a4a;
+    font-size: 1.05rem;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+}
+
+.text-area:hover {
+    background: var(--primary-white);
+    box-shadow: var(--shadow-subtle);
+    border-color: var(--medium-gray);
+}
+
+/* 激励文字区域的特殊"微光"样式 */
+.motivating-text-style {
+    border: 1px solid #D4AF37; /* 一个优雅的淡金色 */
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.2); /* 匹配的金色光晕 */
+}
+
+.progress-bar {
+    background: var(--primary-black);
+    border-radius: 6px;
+    transition: width 0.3s ease;
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Markdown内容样式 - 极简版本 */
+.markdown-content {
+    line-height: 1.6;
+    color: var(--primary-black);
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+    color: var(--primary-black);
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.markdown-content h1 {
+    font-size: 24px;
+    border-bottom: 2px solid var(--light-gray);
+    padding-bottom: 8px;
+}
+
+.markdown-content h2 {
+    font-size: 20px;
+}
+
+.markdown-content h3 {
+    font-size: 18px;
+}
+
+.markdown-content p {
+    font-size: 1.1rem;
+    line-height: 1.85;
+    margin-bottom: 1.25rem;
+    color: var(--primary-black);
+}
+
+.markdown-content strong {
+    font-weight: 600;
+    color: var(--primary-black);
+}
+
+.markdown-content em {
+    font-style: italic;
+    color: var(--medium-gray);
+}
+
+.markdown-content ul,
+.markdown-content ol {
+    margin-bottom: 16px;
+    padding-left: 2rem;
+}
+
+.markdown-content li {
+    margin-bottom: 0.5rem;
+    color: var(--primary-black);
+    font-size: 15px;
+}
+
+.markdown-content code {
+    background: var(--soft-gray);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 13px;
+    color: var(--primary-black);
+    border: 1px solid var(--light-gray);
+}
+
+.markdown-content pre {
+    background: var(--soft-gray);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+    border: 1px solid var(--light-gray);
+}
+
+.markdown-content blockquote {
+    border-left: 4px solid var(--primary-black);
+    padding-left: 16px;
+    margin: 16px 0;
+    color: var(--medium-gray);
+    font-style: italic;
+    background: var(--soft-gray);
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+}
+
+.markdown-content .disgusting-text {
+    color: var(--primary-black);
+}
+
+.markdown-content .motivating-text {
+    color: var(--primary-black);
+}
+
+/* 新的对话输入框样式 */
+.dialogue-input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: var(--secondary-white);
+    border-radius: 999px; /* 胶囊形状 */
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 2px solid var(--light-gray);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.dialogue-input-wrapper:hover {
+    border-color: var(--medium-gray);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.dialogue-input-wrapper:focus-within {
+    border-color: var(--primary-black);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* 加载状态下的样式 */
+.dialogue-input-wrapper.loading {
+    justify-content: center;
+    padding: 16px 24px;
+    border-color: var(--medium-gray);
+}
+
+.dialogue-input-wrapper.loading .dialogue-input,
+.dialogue-input-wrapper.loading .send-btn {
+    display: none;
+}
+
+.dialogue-input-wrapper.loading::before {
+    content: "正在思考你的理由...";
+    color: var(--medium-gray);
+    font-size: 1rem;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.dialogue-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    padding: 8px 16px;
+    font-size: 1rem;
+    color: var(--primary-black);
+}
+
+.dialogue-input:focus {
+    outline: none;
+}
+
+.send-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.send-btn:hover {
+    background-color: #333;
+}
+
+/* 分页指示器样式 */
+.slider-pagination .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #d1d5db; /* gray-300 */
+    margin: 0 4px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.slider-pagination .dot.active {
+    background-color: var(--primary-black);
+}
+
+/* 文字滑动页面样式 */
+.text-slide {
+    min-height: 200px;
+    display: flex;
+    align-items: stretch;
+    animation: slideUp 0.3s ease-out;
+}
+
+/* 分隔符样式 */
+.separator-or {
+    position: relative;
+}
+
+.separator-or::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--light-gray);
+    z-index: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .warning-text-main {
+        font-size: clamp(3rem, 12vw, 6rem);
+    }
+    
+    .loading-indicator {
+        bottom: 15%;
+    }
+    
+    .loading-text {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 640px) {
+    .main-card {
+        margin: 0 16px;
+    }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+} 
