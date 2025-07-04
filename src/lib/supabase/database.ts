@@ -55,6 +55,7 @@ export interface UserVow {
   vow_text: string
   image_url: string | null
   motivational_text: string | null
+  ai_motivational_text: string | null
   created_at: string
   updated_at: string
 }
