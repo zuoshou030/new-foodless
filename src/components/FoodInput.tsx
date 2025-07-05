@@ -21,13 +21,28 @@ interface FoodInputProps {
  */
 export default function FoodInput({ onSubmit }: FoodInputProps) {
   const [reason, setReason] = useState('')
+  const [isMultiLine, setIsMultiLine] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const singleRowHeightRef = useRef(0)
 
-  // 自动调整textarea高度
+  // 自动调整textarea高度并判断是否为多行
   useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto' // 先重置高度
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px` // 再设置为滚动高度
+    const textarea = textareaRef.current
+    if (textarea) {
+      // 首次渲染时，记录下单行高度作为基准
+      if (singleRowHeightRef.current === 0) {
+        singleRowHeightRef.current = textarea.scrollHeight
+      }
+
+      // 重置高度以获取最新的滚动高度
+      textarea.style.height = 'auto'
+      const newScrollHeight = textarea.scrollHeight
+
+      // 设置新的高度
+      textarea.style.height = `${newScrollHeight}px`
+
+      // 判断是否超过一行（增加2px容差以避免计算误差）
+      setIsMultiLine(newScrollHeight > singleRowHeightRef.current + 2)
     }
   }, [reason])
 
@@ -82,8 +97,8 @@ export default function FoodInput({ onSubmit }: FoodInputProps) {
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="请输入你曾经想减肥的初心"
-          className={`food-input-field w-full ${reason ? 'text-left' : 'text-center'}`}
-          maxLength={500}
+          className={`food-input-field w-full ${isMultiLine ? 'text-left' : 'text-center'}`}
+          maxLength={200}
           rows={1}
         />
       </div>
