@@ -13,8 +13,8 @@ export const AI_CONFIG = {
   textModel: {
     url: 'https://xiaohumini.site/v1/chat/completions',
     //model: 'gpt-4.1-nano-2025-04-14',
-    //model: 'gemini-2.5-pro-preview-05-06',
-    model: 'gemini-2.0-flash',
+    model: 'gemini-2.5-pro-preview-05-06',
+    //model: 'gemini-2.0-flash',
     temperature: 0.8,
     maxTokens: {
       disgusting: 3000,   // 厌恶文本最大token数
@@ -28,8 +28,8 @@ export const AI_CONFIG = {
   visionModel: {
     url: 'https://xiaohumini.site/v1/chat/completions', 
     //model: 'gpt-4.1-nano-2025-04-14',
-    model: 'gemini-2.0-flash',
-    //model: 'gemini-2.5-pro-preview-05-06',
+    //model: 'gemini-2.0-flash',
+    model: 'gemini-2.5-pro-preview-05-06',
     temperature: 0.8,
     maxTokens: {
       disgusting: 3000,   // 带图像的厌恶文本最大token数
