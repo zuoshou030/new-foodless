@@ -20,7 +20,7 @@ export const AI_CONFIG = {
       disgusting: 3000,   // 厌恶文本最大token数
       motivating: 3000,   // 激励文本最大token数  
       dialogue: 3000,     // 对话文本最大token数 (由600修改)
-      vowMotivation: 400 // 新增：核心誓言AI激励文案
+      vowMotivation: 3000 // 新增：核心誓言AI激励文案
     }
   },
   

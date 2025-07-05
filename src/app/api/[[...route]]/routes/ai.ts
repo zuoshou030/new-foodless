@@ -72,7 +72,7 @@ export function getDynamicPrompt(type: string, userInput?: string, weightLossRea
 
         case 'vowMotivation':
             systemPrompt = SYSTEM_PROMPTS.vowMotivation;
-            userPrompt = VOW_PROMPTS.motivational.replace(/{vowText}/g, userInput || '');
+            userPrompt = VOW_PROMPTS.vowMotivation.replace(/{vowText}/g, userInput || '');
             break;
 
         case 'recordAnalysis':
@@ -194,7 +194,6 @@ export async function callAI(prompt: string, type: string, imageData?: string, c
         config = AI_CONFIG.textModel;
         // 根据不同文本类型，精细化控制AI生成内容的长度(max_tokens)。
         if (type === 'vowMotivation') {
-            console.log('✨ 为核心誓言生成激励文案');
             maxTokens = config.maxTokens.vowMotivation;
         } else if (type === 'motivating') {
             maxTokens = config.maxTokens.motivating;

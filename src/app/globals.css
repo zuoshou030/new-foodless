@@ -103,9 +103,20 @@ body {
     box-shadow: var(--shadow-subtle);
 }
 
-/* 当加载动画激活时，锁定body滚动 */
+/* 当加载动画激活时，锁定body滚动 - 移动端增强版 */
 body.loading-active {
-    overflow: hidden;
+    overflow: hidden !important;
+    position: fixed !important;
+    height: 100% !important;
+    width: 100% !important;
+    touch-action: none !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* 🔒 警示词加载页面时隐藏个人管理按钮 */
+.warning-loader ~ * .fixed.top-4.right-4,
+body.loading-active .fixed.top-4.right-4 {
+    display: none !important;
 }
 
 /* 美食名称输入框样式 */
@@ -204,8 +215,12 @@ body.loading-active {
 /* 简洁警醒文字加载动画 - 黑白版本 */
 .warning-loader {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    position: relative;
-    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
     height: 100vh;
     overflow: hidden;
     background: var(--primary-white);
@@ -213,6 +228,13 @@ body.loading-active {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 9999;
+    touch-action: none;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .warning-text-main {
@@ -566,6 +588,33 @@ body.loading-active {
     z-index: 0;
 }
 
+/* 🔧 修复滚动条导致的布局偏移问题 */
+.stable-scrollbar {
+    /* 始终显示滚动条，防止布局偏移 */
+    overflow-y: scroll;
+    /* 在Webkit浏览器中强制显示滚动条轨道 */
+    scrollbar-gutter: stable;
+    /* 确保宽度计算包含滚动条 */
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+/* 针对结果展示页面的特殊处理 */
+.stable-scrollbar:has(.result-display) {
+    /* 当内容较少时，调整为居中布局 */
+    justify-content: flex-start;
+    padding-top: max(6vh, 3rem);
+}
+
+/* 结果展示组件的额外稳定性保证 */
+.result-display {
+    /* 确保组件本身也是稳定居中的 */
+    margin-left: auto;
+    margin-right: auto;
+    /* 防止意外的偏移 */
+    transform: translateX(0);
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     .warning-text-main {
@@ -578,6 +627,21 @@ body.loading-active {
     
     .loading-text {
         font-size: 12px;
+    }
+    
+    /* 移动端的滚动条处理 */
+    .stable-scrollbar {
+        padding-top: max(4vh, 2rem);
+        /* 移动端滚动条通常是浮动的，需要特殊处理 */
+        width: 100%;
+    }
+    
+    /* 移动端结果展示的额外优化 */
+    .result-display {
+        /* 移动端确保没有水平偏移 */
+        max-width: calc(100vw - 3rem);
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 

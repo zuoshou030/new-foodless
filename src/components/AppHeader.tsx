@@ -14,9 +14,10 @@ import { useAuth } from './auth/AuthProvider'
 /**
  * 应用标题组件
  * 显示饭缩力主标题、副标题和用户菜单
+ * @param showTitle 是否显示标题区域（默认true）
  * @returns JSX元素
  */
-export default function AppHeader() {
+export default function AppHeader({ showTitle = true }: { showTitle?: boolean }) {
   const { user, signOut } = useAuth()
   const [showUserMenu, setShowUserMenu] = useState(false)
 
@@ -107,14 +108,16 @@ export default function AppHeader() {
         />
       )}
 
-      {/* 应用标题 */}
-    <div className="text-center mb-12 fade-in">
-      <h1 className="text-5xl sm:text-6xl font-bold title-gradient mb-4">
-        饭缩力
-      </h1>
-      <p className="text-xl text-gray-600 font-medium">让食物失去诱惑力</p>
-      <div className="w-24 h-1 bg-black rounded-full mx-auto mt-4"></div>
-    </div>
+      {/* 应用标题 - 根据showTitle参数控制显示 */}
+      {showTitle && (
+        <div className="text-center mb-12 fade-in">
+          <h1 className="text-5xl sm:text-6xl font-bold title-gradient mb-4">
+            饭缩力
+          </h1>
+          <p className="text-xl text-gray-600 font-medium">让食物失去诱惑力</p>
+          <div className="w-24 h-1 bg-black rounded-full mx-auto mt-4"></div>
+        </div>
+      )}
     </>
   )
 } 

@@ -78,9 +78,9 @@ export default function ResultDisplay({
   }
 
   return (
-    <div className="w-full max-w-4xl transition-opacity duration-700 opacity-100">
+    <div className="w-full max-w-4xl transition-opacity duration-700 opacity-100 result-display relative">
       {/* 返回按钮 */}
-      <div className="absolute top-8 left-8 z-20">
+      <div className="absolute -top-4 -left-4 z-20">
         <button 
           onClick={onBack}
           className="btn-secondary w-12 h-12 flex items-center justify-center text-gray-600 hover:text-black"

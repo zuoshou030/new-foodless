@@ -123,16 +123,46 @@ export default function LoadingOverlay({
   }, [isFirstTextReady])
 
   useEffect(() => {
-    // 锁定body滚动
+    // 🔒 移动端滚动锁定增强版
+    const originalStyle = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      height: document.body.style.height,
+      touchAction: document.body.style.touchAction,
+    }
+    
+    // 锁定body滚动 - 移动端兼容
     document.body.classList.add('loading-active')
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.height = '100%'
+    document.body.style.touchAction = 'none'
+    
+    // 阻止触摸滚动事件
+    const preventScroll = (e: TouchEvent) => {
+      e.preventDefault()
+    }
+    
+    // 添加触摸事件监听器
+    document.addEventListener('touchstart', preventScroll, { passive: false })
+    document.addEventListener('touchmove', preventScroll, { passive: false })
     
     return () => {
+      // 恢复原始样式
       document.body.classList.remove('loading-active')
+      document.body.style.overflow = originalStyle.overflow
+      document.body.style.position = originalStyle.position
+      document.body.style.height = originalStyle.height
+      document.body.style.touchAction = originalStyle.touchAction
+      
+      // 移除触摸事件监听器
+      document.removeEventListener('touchstart', preventScroll)
+      document.removeEventListener('touchmove', preventScroll)
     }
   }, [])
 
   return (
-    <div className="fixed inset-0 z-50 warning-loader">
+    <div className="warning-loader">
       {/* 主要警醒文字 */}
       <div className={`warning-text-main ${showText ? 'show' : ''}`}>
         <div 

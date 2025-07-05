@@ -29,7 +29,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-black rounded-2xl mb-4 animate-pulse">
-            <i className="fas fa-apple-alt text-white text-2xl"></i>
+            <i className="fas fa-leaf text-white text-2xl"></i>
           </div>
           <h2 className="text-xl font-semibold text-gray-800 mb-2">
             饭缩力

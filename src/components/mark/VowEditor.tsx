@@ -96,7 +96,7 @@ export default function VowEditor() {
     }
   }, [user?.id, fetchVow]);
 
-  // 新增：AI生成激励文案的函数
+  // 新增：AI生成启发文案的函数
   const handleGenerateAIMotivation = async () => {
     if (!editText.trim() || isGeneratingAI) return;
 
@@ -333,7 +333,7 @@ export default function VowEditor() {
               />
             </div>
 
-            {/* AI生成激励文案 */}
+            {/* AI生成启发文案 */}
             <div className="border-t border-gray-200 pt-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 来自AI的智慧

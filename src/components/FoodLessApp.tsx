@@ -61,7 +61,7 @@ export default function FoodLessApp() {
       )}
 
       {/* 主要内容区域 */}
-      <div className="min-h-screen flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 stable-scrollbar">
         
         {/* 输入阶段 */}
         {appState.currentStep === 'input' && (
@@ -113,13 +113,17 @@ export default function FoodLessApp() {
 
         {/* 结果展示阶段 */}
         {appState.currentStep === 'result' && (
-          <ResultDisplay
-            processedImage={appState.processedImage}
-            chatHistory={appState.chatHistory}
-            onBack={handleBack}
-            onContinueDialogue={handleContinueDialogue}
-            onGenerateMotivating={generateMotivatingText}
-          />
+          <>
+            {/* 个人管理按钮 - 结果页面也需要 */}
+            <AppHeader showTitle={false} />
+            <ResultDisplay
+              processedImage={appState.processedImage}
+              chatHistory={appState.chatHistory}
+              onBack={handleBack}
+              onContinueDialogue={handleContinueDialogue}
+              onGenerateMotivating={generateMotivatingText}
+            />
+          </>
         )}
 
         {/* 错误显示 */}
