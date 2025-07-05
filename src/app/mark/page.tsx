@@ -7,6 +7,7 @@ import VowEditor from '@/components/mark/VowEditor';
 import VictoryLog from '@/components/mark/VictoryLog';
 import CommitmentEditor from '@/components/mark/CommitmentEditor';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import AppHeader from '@/components/AppHeader';
 
 function MarkContent() {
   const searchParams = useSearchParams();
@@ -27,27 +28,12 @@ function MarkContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 stable-scrollbar">
       {/* 顶部导航 */}
-      <div className="flex items-center justify-between p-4">
-        {/* 返回按钮 */}
-        <Link href="/" passHref>
-          <button className="flex items-center justify-center w-12 h-12 bg-white rounded-full border-2 border-gray-200 hover:shadow-md transition-all">
-            <i className="fas fa-arrow-left text-gray-700"></i>
-          </button>
-        </Link>
-
-        {/* 页面标题 */}
-        <h1 className="text-2xl font-bold text-gray-800">饭缩力</h1>
-
-        {/* 用户头像占位 */}
-        <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full border-2 border-gray-200">
-          <i className="fas fa-user text-gray-500"></i>
-        </div>
-      </div>
+      <AppHeader hrefpath="/" showTitle={false}/>
 
       {/* 主要内容区域 */}
-      <div className="px-4">
+      <div className="mt-0">
         {renderSection()}
       </div>
     </div>

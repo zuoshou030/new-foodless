@@ -128,10 +128,12 @@ body.loading-active .fixed.top-4.right-4 {
     background-color: var(--soft-gray);
     border: 1px solid var(--light-gray);
     border-radius: var(--border-radius);
-    text-align: center;
+    /* text-align will be handled dynamically in the component */
     transition: var(--transition);
     outline: none;
     -webkit-appearance: none;
+    resize: none; /* 取消用户手动调整大小 */
+    overflow-y: hidden; /* 隐藏垂直滚动条，因为高度由JS控制 */
 }
 
 .food-input-field::placeholder {

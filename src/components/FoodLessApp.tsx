@@ -66,20 +66,10 @@ export default function FoodLessApp() {
         {/* 输入阶段 */}
         {appState.currentStep === 'input' && (
           <>
-            {/* 恢复会话按钮 - 仅当有结果时显示 */}
-            {appState.processedImage && (
-              <div className="fixed top-20 right-4 z-50">
-                <button
-                  onClick={handleResume}
-                  className="w-12 h-12 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center hover:border-gray-300 hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-                  title="返回上次结果"
-                >
-                  <i className="fas fa-history text-gray-700"></i>
-                </button>
-              </div>
-            )}
-
-            <AppHeader />
+            {/* 返回会话窗口按钮 - 仅当有结果时显示 */}
+            <AppHeader showBack={!!appState.processedImage} onBack={handleResume}/>
+            
+            {/* 上传图片区域 */}
             <UploadArea 
               onImageUpload={handleImageUpload} 
               isUploaded={!!appState.uploadedImage}
@@ -114,12 +104,10 @@ export default function FoodLessApp() {
         {/* 结果展示阶段 */}
         {appState.currentStep === 'result' && (
           <>
-            {/* 个人管理按钮 - 结果页面也需要 */}
-            <AppHeader showTitle={false} />
+            <AppHeader showTitle={false} showBack={true} onBack={handleBack}/>
             <ResultDisplay
               processedImage={appState.processedImage}
               chatHistory={appState.chatHistory}
-              onBack={handleBack}
               onContinueDialogue={handleContinueDialogue}
               onGenerateMotivating={generateMotivatingText}
             />

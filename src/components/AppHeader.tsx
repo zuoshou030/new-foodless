@@ -10,6 +10,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useAuth } from './auth/AuthProvider'
+import { usePathname, useRouter } from 'next/navigation';
 
 /**
  * 应用标题组件
@@ -17,9 +18,12 @@ import { useAuth } from './auth/AuthProvider'
  * @param showTitle 是否显示标题区域（默认true）
  * @returns JSX元素
  */
-export default function AppHeader({ showTitle = true }: { showTitle?: boolean }) {
+export default function AppHeader({ showTitle = true,showBack = true,hrefpath = "/",onBack }: { showTitle?: boolean,showBack?: boolean,hrefpath?: string,onBack?: () => void}) {
   const { user, signOut } = useAuth()
   const [showUserMenu, setShowUserMenu] = useState(false)
+
+  const router = useRouter()
+  const isHome = usePathname() === '/'
 
   /**
    * 处理用户登出
@@ -29,16 +33,38 @@ export default function AppHeader({ showTitle = true }: { showTitle?: boolean })
     setShowUserMenu(false)
   }
 
+  /**
+   * 处理返回按钮点击
+   */
+  const handlePushBack = () => {
+    if (isHome) {
+      onBack?.()
+    } else {
+      router.push(hrefpath)
+    }
+  }
+
   return (
     <>
-      {/* 用户菜单 - 固定在页面右上角 */}
+      {/* 返回按钮 */}
+      {showBack && (
+        <div className="fixed top-4 left-4 z-50">
+        <button 
+        onClick={handlePushBack}
+        className="fixed items-center justify-center w-12 h-12 bg-white rounded-full border-2 border-gray-200 hover:shadow-md transition-all">
+          <i className="fas fa-arrow-left text-gray-700"></i>
+        </button>
+        </div>
+      )}
+
+      {/* 用户菜单 - 在页面右上角 */}
       {user && (
         <div className="fixed top-4 right-4 z-50">
           <div className="relative">
             {/* 用户头像按钮 */}
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="w-12 h-12 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center hover:border-gray-300 hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              className="w-12 h-12 bg-white rounded-full border-2 border-gray-200 flex items-center justify-center hover:border-gray-300 hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             >
               <i className="fas fa-user text-gray-700"></i>
             </button>

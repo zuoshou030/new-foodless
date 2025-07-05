@@ -16,7 +16,6 @@ import Link from 'next/link'
 interface ResultDisplayProps {
   processedImage: ImageProcessResult | null
   chatHistory: ChatMessage[]
-  onBack: () => void
   onContinueDialogue: (input: string) => void
   onGenerateMotivating: () => void
 }
@@ -30,7 +29,6 @@ interface ResultDisplayProps {
 export default function ResultDisplay({
   processedImage,
   chatHistory,
-  onBack,
   onContinueDialogue,
   onGenerateMotivating
 }: ResultDisplayProps) {
@@ -78,17 +76,7 @@ export default function ResultDisplay({
   }
 
   return (
-    <div className="w-full max-w-4xl transition-opacity duration-700 opacity-100 result-display relative">
-      {/* 返回按钮 */}
-      <div className="absolute -top-4 -left-4 z-20">
-        <button 
-          onClick={onBack}
-          className="btn-secondary w-12 h-12 flex items-center justify-center text-gray-600 hover:text-black"
-        >
-          <i className="fas fa-arrow-left text-lg"></i>
-        </button>
-      </div>
-      
+    <div className="mt-5 w-full max-w-4xl transition-opacity duration-700 opacity-100 result-display relative">
       {/* 处理结果网格布局 */}
       <div className="grid lg:grid-cols-2 gap-8 items-start">
         
